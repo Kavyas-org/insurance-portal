@@ -1,6 +1,17 @@
 import { useState } from "react";
-import API from "../../services/api";
-import { FiSearch, FiCheckCircle, FiClock, FiX } from "react-icons/fi";
+
+import {
+  FiSearch,
+  FiX,
+  FiShield,
+  FiFileText,
+  FiCheckCircle,
+  FiClock,
+  FiAlertCircle,
+  FiDownload,
+} from "react-icons/fi";
+
+import { getInsuranceByRefId } from "../../services/api";
 
 const Verify = () => {
   const [refId, setRefId] = useState("");
@@ -9,230 +20,458 @@ const Verify = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
-   if (!refId.trim()) {
-  setError("Please enter Reference ID");
-  return;
-}
+    if (!refId.trim()) {
+      setError("Please enter Reference ID");
+      return;
+    }
 
     try {
       setLoading(true);
+
       setError("");
       setUser(null);
 
-      const res = await API.get(`/user/${refId}`);
+      const res = await getInsuranceByRefId(refId);
+
       setUser(res.data);
+
     } catch {
-      setError("No record found");
+      setError("No policy record found");
+
     } finally {
       setLoading(false);
     }
   };
 
   return (
- 
-  <div className="min-h-screen bg-[#f2f4f7] flex items-center justify-center px-6 py-16">
+    <div className="min-h-screen bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#111827] flex items-center justify-center px-6 py-20 overflow-hidden relative">
 
-    <div className="max-w-6xl w-full grid md:grid-cols-2 gap-10 items-start">
+      {/* GLOW EFFECTS */}
+      <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] bg-blue-500/20 blur-3xl rounded-full"></div>
 
-      {/* LEFT INFO */}
-      <div className="space-y-6">
+      <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] bg-cyan-500/20 blur-3xl rounded-full"></div>
 
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-            Employee Verification Portal
-          </h1>
+      <div className="max-w-7xl w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
 
-          <p className="text-gray-500 max-w-md">
-            Welcome to our secure verification system. Verify your official documents
-            and ensure authenticity with our trusted platform.
-          </p>
+        {/* LEFT SIDE */}
+        <div className="space-y-8">
+
+          {/* BADGE */}
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-300 px-4 py-2 rounded-full text-sm">
+
+            <FiShield />
+
+            Secure Insurance Verification
+
+          </div>
+
+          {/* HEADING */}
+          <div>
+
+            <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
+
+              Verify Your
+              <span className="bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] bg-clip-text text-transparent">
+                {" "}Insurance Policy
+              </span>
+
+            </h1>
+
+            <p className="text-gray-400 mt-8 text-lg leading-9 max-w-xl">
+
+              Instantly verify insurance policy status,
+              tracking progress, and official documents
+              through Veltrix Global Insurance secure verification system.
+
+            </p>
+
+          </div>
+
+          {/* FEATURE CARDS */}
+          <div className="space-y-5">
+
+            {/* CARD */}
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 hover:border-blue-500/30 transition">
+
+              <div className="flex items-start gap-5">
+
+                <div className="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center shrink-0">
+
+                  <FiCheckCircle className="text-green-400 text-2xl" />
+
+                </div>
+
+                <div>
+
+                  <h3 className="text-white text-xl font-semibold">
+                    Trusted & Secure
+                  </h3>
+
+                  <p className="text-gray-400 mt-3 leading-7">
+                    Your insurance information is encrypted and securely protected with real-time verification updates.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* CARD */}
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 hover:border-blue-500/30 transition">
+
+              <div className="flex items-start gap-5">
+
+                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center shrink-0">
+
+                  <FiShield className="text-blue-400 text-2xl" />
+
+                </div>
+
+                <div>
+
+                  <h3 className="text-white text-xl font-semibold">
+                    Instant Policy Access
+                  </h3>
+
+                  <p className="text-gray-400 mt-3 leading-7">
+                    Access policy status, documents, and verification details instantly using your reference ID.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
-        {/* GREEN CARD */}
-        <div className="bg-white rounded-xl p-5 shadow-sm border-l-4 border-green-500">
-          <h3 className="font-semibold text-green-600 mb-1">
-            Secure & Real-Time
-          </h3>
-          <p className="text-sm text-gray-500">
-            Data is synced with our HR system. Your information remains confidential and secure.
-          </p>
-        </div>
+        {/* RIGHT SIDE */}
+        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[32px] p-8 md:p-10 shadow-[0_20px_80px_rgba(0,0,0,0.4)] relative overflow-hidden">
 
-        {/* RED CARD */}
-        <div className="bg-white rounded-xl p-5 shadow-sm border-l-4 border-red-500">
-          <h3 className="font-semibold text-red-600 mb-1">
-            Beware of Fraudulent Offers
-          </h3>
-          <p className="text-sm text-gray-500">
-            We never ask for fees. Always verify your offer to ensure authenticity.
-          </p>
+          {/* TOP GLOW */}
+          <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 blur-3xl rounded-full"></div>
+
+          {/* ICON */}
+          <div className="flex justify-center mb-8 relative z-10">
+
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] flex items-center justify-center shadow-2xl">
+
+              <FiSearch className="text-white text-3xl" />
+
+            </div>
+
+          </div>
+
+          {/* TITLE */}
+          <div className="text-center mb-10 relative z-10">
+
+            <h2 className="text-3xl font-bold text-white">
+              Verify Policy
+            </h2>
+
+            <p className="text-gray-400 mt-4 text-lg">
+              Enter your insurance reference ID
+            </p>
+
+          </div>
+
+          {/* INFO */}
+          <div className="bg-[#0f172a]/80 border border-white/10 rounded-2xl p-5 text-gray-400 text-sm leading-7 mb-8 relative z-10">
+
+            Use your official reference ID to verify
+            insurance details, tracking progress, and policy documents securely.
+
+          </div>
+
+          {/* INPUT */}
+          <div className="relative z-10">
+
+            <label className="text-sm text-gray-400 mb-3 block">
+              Reference ID
+            </label>
+
+            <input
+              type="text"
+              placeholder="Ex: VGI-10234"
+              value={refId}
+              onChange={(e) => setRefId(e.target.value)}
+              className="w-full h-16 bg-[#0f172a]/80 border border-white/10 rounded-2xl px-6 text-white placeholder:text-gray-500 focus:border-[#2563eb] focus:ring-4 focus:ring-blue-500/10 outline-none transition"
+            />
+
+          </div>
+
+          {/* BUTTON */}
+          <button
+            onClick={handleSearch}
+            className="w-full mt-8 h-16 bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 text-white rounded-2xl font-semibold text-lg flex items-center justify-center gap-3 transition shadow-2xl relative z-10"
+          >
+
+            <FiSearch size={20} />
+
+            Verify Policy
+
+          </button>
+
+          {/* ERROR */}
+          {error && (
+            <div className="mt-6 bg-red-500/10 border border-red-500/20 rounded-2xl p-4 text-red-400 text-sm flex items-center gap-3">
+
+              <FiAlertCircle />
+
+              {error}
+
+            </div>
+          )}
+
+          {/* LOADING */}
+          {loading && (
+            <div className="mt-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 text-blue-300 text-sm flex items-center gap-3">
+
+              <FiClock />
+
+              Checking policy verification...
+
+            </div>
+          )}
+
         </div>
 
       </div>
 
-     {/* RIGHT FORM */}
-<div className="bg-white rounded-2xl shadow-lg p-8 relative">
-
-  {/* TOP BORDER (SUBTLE DARK) */}
-  <div className="absolute top-0 left-0 w-full h-1 bg-gray-800 rounded-t-2xl"></div>
-
-  {/* ICON */}
-  <div className="flex justify-center mb-6">
-    <div className="bg-gray-100 p-3 rounded-full">
-      <FiSearch className="text-gray-700 text-xl" />
-    </div>
-  </div>
-
-  {/* INFO BOX (NEUTRAL) */}
-  <div className="bg-gray-50 border-l-4 border-gray-400 p-4 rounded mb-6 text-sm text-gray-600">
-    Enter your Reference ID or Passport Number to verify your document status.
-  </div>
-
-  {/* INPUT */}
-  <label className="text-xs text-gray-500 font-semibold">
-    REFERENCE ID / PASSPORT NO
-  </label>
-
-  <input
-    type="text"
-    placeholder="Ex: CG-12345 or AB1234567"
-    value={refId}
-    onChange={(e) => setRefId(e.target.value)}
-    className="w-full border mt-2 p-3 rounded-lg outline-none focus:ring-2 focus:ring-gray-700"
-  />
-
-  {/* BUTTON (PRIMARY ACTION) */}
-  <button
-    onClick={handleSearch}
-    className="w-full mt-6 bg-gray-900 hover:bg-black text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
-  >
-    <FiSearch /> VERIFY DOCUMENT
-  </button>
-
-  {/* ERROR */}
-  {error && (
-    <p className="text-center text-red-500 mt-4">{error}</p>
-  )}
-
-  {/* LOADING */}
-  {loading && (
-    <p className="text-center text-gray-400 mt-4">Checking...</p>
-  )}
-
-</div>
-
-    </div>
-
-      {/* RESULT MODAL */}
+      {/* MODAL */}
       {user && (
-        <div 
-        onClick={() => setUser(null)}
-        className="fixed inset-0 bg-black/40 flex items-center justify-center">
+        <div
+          onClick={() => setUser(null)}
+          className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center px-4 z-50"
+        >
 
-          <div 
-onClick={(e) => e.stopPropagation()}
-          className="bg-white w-full max-w-md rounded-2xl shadow-2xl relative overflow-hidden">
+          <div
+            onClick={(e) => e.stopPropagation()}
+className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0b1120]/95 backdrop-blur-2xl border border-white/10 rounded-[32px] shadow-[0_20px_100px_rgba(0,0,0,0.5)]"          >
 
-            {/* TOP BAR */}
-            <div className="bg-yellow-500 h-20 rounded-b-3xl"></div>
+            {/* HEADER */}
+            <div className="px-6 py-5 border-b border-white/10 flex justify-between items-center bg-white/[0.02]">
 
-            {/* CLOSE */}
-            <button
-              onClick={() => setUser(null)}
-              className="absolute top-3 right-3 text-gray-600"
-            >
-              <FiX size={20} />
-            </button>
+              <div>
 
-            {/* PROFILE */}
-            <div className="flex flex-col items-center -mt-12 px-6">
+                <h2 className="text-2xl font-semibold text-white">
+                  Policy Details
+                </h2>
 
-              <img
-                src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${user.image}`}
-                className="w-24 h-24 rounded-full border-4 border-white object-cover"
-              />
+                <p className="text-gray-400 mt-1">
+                  Verified insurance information
+                </p>
 
-              <h2 className="mt-3 font-bold text-lg text-center">
-                {user.name}
-              </h2>
-
-              <span className="text-xs text-gray-400">
-                {user.passport}
-              </span>
-
-              {/* VERIFIED BADGE */}
-              <div className="mt-3 bg-green-600 text-white px-4 py-1 rounded-full text-sm flex items-center gap-1">
-                <FiCheckCircle /> Officially Verified
               </div>
+
+              <button
+                onClick={() => setUser(null)}
+                className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition flex items-center justify-center"
+              >
+
+                <FiX size={20} />
+
+              </button>
+
             </div>
 
-            {/* DETAILS */}
-            <div className="p-6 space-y-4">
+            {/* BODY */}
+            <div className="p-6 md:p-7 space-y-6">
 
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              {/* PROFILE */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-5">
 
-                <div>
-                  <p className="text-gray-400">Reference ID</p>
-                  <p className="font-medium">{user.refId}</p>
+                {/* AVATAR */}
+                {user.image ? (
+                  <img
+                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/${user.image}`}
+                    alt={user.name}
+                    className="w-20 h-20 rounded-3xl object-cover border border-white/10"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] flex items-center justify-center text-white text-3xl font-bold shadow-2xl">
+                    {user.name?.charAt(0)?.toUpperCase()}
+                  </div>
+                )}
+
+                {/* INFO */}
+                <div className="flex-1">
+
+                  <h3 className="text-2xl font-semibold text-white">
+                    {user.name}
+                  </h3>
+
+                  <p className="text-gray-400 mt-2">
+                    Policy Number: {user.policyNumber}
+                  </p>
+
                 </div>
 
+                {/* STATUS */}
                 <div>
-                  <p className="text-gray-400">Status</p>
-                  <p className="font-medium">{user.status}</p>
+
+                  <span
+                    className={`px-5 py-3 rounded-2xl text-sm font-semibold
+                    ${
+                      user.status === "Approved"
+                        ? "bg-green-500/10 text-green-400"
+                        : user.status === "Pending"
+                        ? "bg-yellow-500/10 text-yellow-400"
+                        : "bg-red-500/10 text-red-400"
+                    }`}
+                  >
+                    {user.status}
+                  </span>
+
                 </div>
+
+              </div>
+
+              {/* INFO GRID */}
+              <div className="grid md:grid-cols-2 gap-5">
+
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+
+                  <p className="text-gray-400 text-sm">
+                    Reference ID
+                  </p>
+
+                  <h3 className="text-white text-lg font-semibold mt-3">
+                    {user.refId}
+                  </h3>
+
+                </div>
+
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+
+                  <p className="text-gray-400 text-sm">
+                    Insurance Type
+                  </p>
+
+                  <h3 className="text-white text-lg font-semibold mt-3">
+                    {user.insuranceType}
+                  </h3>
+
+                </div>
+
+              </div>
+
+              {/* PDF */}
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+
+                <div className="flex items-center gap-4">
+
+                  <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+
+                    <FiFileText className="text-blue-400 text-2xl" />
+
+                  </div>
+
+                  <div>
+
+                    <h3 className="text-white font-semibold">
+                      Policy Document
+                    </h3>
+
+                    <p className="text-gray-400 text-sm mt-1">
+                      Secure PDF insurance file
+                    </p>
+
+                  </div>
+
+                </div>
+
+                {user.document ? (
+                  <a
+                    href={`${import.meta.env.VITE_API_URL.replace("/api", "")}/${user.document}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-12 px-6 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 transition text-white font-semibold flex items-center justify-center gap-2"
+                  >
+
+                    <FiDownload />
+
+                    View PDF
+
+                  </a>
+                ) : (
+                  <span className="text-gray-500 text-sm">
+                    Document not available
+                  </span>
+                )}
 
               </div>
 
               {/* TRACKING */}
-             <div className="mt-6">
-  <h3 className="font-semibold mb-4 text-center">
-    Application Tracking
-  </h3>
+              <div>
 
-  <div className="relative pl-6">
+                <h4 className="text-white text-xl font-semibold mb-6">
+                  Tracking Progress
+                </h4>
 
-    {user.tracking?.map((step, index) => (
-      <div key={index} className="mb-6 flex items-start gap-3">
+                <div className="space-y-5">
 
-        {/* LINE */}
-        {index !== user.tracking.length - 1 && (
-          <span className="absolute left-2 top-6 w-[2px] h-full bg-gray-200"></span>
-        )}
+                  {user.tracking?.map((step, i) => {
+                    const done =
+                      step.status === "Done";
 
-        {/* ICON */}
-        <div className={`w-5 h-5 rounded-full flex items-center justify-center
-          ${step.status === "Done" ? "bg-green-500" : "bg-yellow-400"}
-        `}>
-          {step.status === "Done" ? (
-            <span className="text-white text-xs">✓</span>
-          ) : (
-            <span className="text-white text-xs">⏳</span>
-          )}
-        </div>
+                    return (
+                      <div
+                        key={i}
+                        className="flex items-start gap-5"
+                      >
 
-        {/* TEXT */}
-        <div className="flex-1">
-          <p className="text-sm font-medium">{step.title}</p>
+                        <div
+                          className={`w-5 h-5 rounded-full mt-1
+                          ${
+                            done
+                              ? "bg-green-500"
+                              : "bg-yellow-400"
+                          }`}
+                        ></div>
 
-          <p className={`text-xs mt-1
-            ${step.status === "Done" ? "text-green-500" : "text-yellow-500"}
-          `}>
-            {step.status}
-          </p>
-        </div>
+                        <div>
 
-      </div>
-    ))}
+                          <h3 className="text-white font-medium">
+                            {step.title}
+                          </h3>
 
-  </div>
-</div>
+                          <p
+                            className={`text-sm mt-1
+                            ${
+                              done
+                                ? "text-green-400"
+                                : "text-yellow-400"
+                            }`}
+                          >
+                            {done
+                              ? "Completed"
+                              : "Pending"}
+                          </p>
 
-              {/* CLOSE BTN */}
+                        </div>
+
+                      </div>
+                    );
+                  })}
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* FOOTER */}
+            <div className="px-6 py-5 border-t border-white/10">
+
               <button
                 onClick={() => setUser(null)}
-                className="w-full bg-gray-800 text-white py-2 rounded-lg mt-4"
+                className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 transition text-white font-semibold"
               >
-                Close
+                Close Window
               </button>
 
             </div>

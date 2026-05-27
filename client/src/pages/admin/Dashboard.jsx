@@ -1,197 +1,402 @@
 import { useEffect, useState } from "react";
-import API from "../../services/api";
+import {
+  getInsurance,
+  deleteInsurance,
+} from "../../services/api";
+
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FiEye, FiTrash2 } from "react-icons/fi";
+
+import {
+  FiEye,
+  FiTrash2,
+  FiPlus,
+  FiShield,
+  FiClock,
+  FiCheckCircle,
+  FiXCircle,
+} from "react-icons/fi";
+
+import Skeleton from "../../components/common/Skeleton";
+import NoData from "../../components/common/NoData";
 
 const Dashboard = () => {
-  const [users, setUsers] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
-  const getUsers = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await API.get("/user");
-      setUsers(res.data);
+
+      const res = await getInsurance({
+        page: 1,
+        limit: 50,
+      });
+
+      setData(res.data.data);
+
     } catch (err) {
-      toast.error("Error fetching users", err);
+      toast.error("Error fetching policies");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getUsers();
+    fetchData();
   }, []);
 
-  // stats
-  const total = users.length;
-  const approved = users.filter(u => u.status === "Approved").length;
-  const pending = users.filter(u => u.status === "Pending").length;
+  // STATS
+  const total = data.length;
 
-  // 🔥 NEW: recent users
-  const recentUsers = [...users].reverse().slice(0, 10);
+  const approved = data.filter(
+    (i) => i.status === "Approved"
+  ).length;
+
+  const pending = data.filter(
+    (i) => i.status === "Pending"
+  ).length;
+
+  const rejected = data.filter(
+    (i) => i.status === "Rejected"
+  ).length;
+
+  const recent = [...data].slice(0, 10);
+
+ 
 
   return (
-    <>
+    <div className="space-y-8">
 
       {/* HEADER */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
         <div>
-          <h1 className="text-2xl font-semibold text-gray-800">
+
+          <div className="inline-flex items-center gap-2 bg-[#172554] border border-blue-500/20 text-blue-300 px-4 py-2 rounded-full text-sm mb-4">
+            <FiShield />
+            Insurance Dashboard
+          </div>
+
+          <h1 className="text-4xl font-bold text-white">
             Dashboard Overview
           </h1>
-          <p className="text-sm text-gray-500">
-            Monitor users and application status
+
+          <p className="text-gray-400 mt-3 text-lg">
+            Monitor and manage all insurance policies
           </p>
+
         </div>
 
         <button
-          onClick={() => navigate("/admin/add-user")}
-          className="bg-[#1f4c7c] hover:bg-[#163b61] text-white px-5 py-2 rounded-lg text-sm shadow-sm"
+          onClick={() => navigate("/admin/add-policy")}
+          className="h-14 px-8 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 transition text-white font-semibold flex items-center justify-center gap-3 shadow-xl"
         >
-          + Add User
+          <FiPlus size={20} />
+          Add Policy
         </button>
+
       </div>
 
       {/* STATS */}
-      <div className="grid md:grid-cols-3 gap-6 mb-10">
+      <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
-        <div className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <p className="text-sm text-gray-500">Total Users</p>
-          <h2 className="text-3xl font-semibold text-[#1f4c7c] mt-2">{total}</h2>
+        {/* TOTAL */}
+        <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl p-7 shadow-xl">
+
+          <div className="flex items-center justify-between">
+
+            <div>
+
+              <p className="text-gray-400 text-sm">
+                Total Policies
+              </p>
+
+              <h2 className="text-4xl font-bold text-white mt-4">
+                {total}
+              </h2>
+
+            </div>
+
+            <div className="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+              <FiShield className="text-blue-400 text-3xl" />
+            </div>
+
+          </div>
+
         </div>
 
-        <div className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <p className="text-sm text-gray-500">Approved</p>
-          <h2 className="text-3xl font-semibold text-green-600 mt-2">{approved}</h2>
+        {/* APPROVED */}
+        <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl p-7 shadow-xl">
+
+          <div className="flex items-center justify-between">
+
+            <div>
+
+              <p className="text-gray-400 text-sm">
+                Approved
+              </p>
+
+              <h2 className="text-4xl font-bold text-green-400 mt-4">
+                {approved}
+              </h2>
+
+            </div>
+
+            <div className="w-16 h-16 rounded-2xl bg-green-500/10 flex items-center justify-center">
+              <FiCheckCircle className="text-green-400 text-3xl" />
+            </div>
+
+          </div>
+
         </div>
 
-        <div className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <p className="text-sm text-gray-500">Pending</p>
-          <h2 className="text-3xl font-semibold text-yellow-500 mt-2">{pending}</h2>
+        {/* PENDING */}
+        <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl p-7 shadow-xl">
+
+          <div className="flex items-center justify-between">
+
+            <div>
+
+              <p className="text-gray-400 text-sm">
+                Pending
+              </p>
+
+              <h2 className="text-4xl font-bold text-yellow-400 mt-4">
+                {pending}
+              </h2>
+
+            </div>
+
+            <div className="w-16 h-16 rounded-2xl bg-yellow-500/10 flex items-center justify-center">
+              <FiClock className="text-yellow-400 text-3xl" />
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* REJECTED */}
+        <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl p-7 shadow-xl">
+
+          <div className="flex items-center justify-between">
+
+            <div>
+
+              <p className="text-gray-400 text-sm">
+                Rejected
+              </p>
+
+              <h2 className="text-4xl font-bold text-red-400 mt-4">
+                {rejected}
+              </h2>
+
+            </div>
+
+            <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center">
+              <FiXCircle className="text-red-400 text-3xl" />
+            </div>
+
+          </div>
+
         </div>
 
       </div>
 
-      {/* TABLE */}
-      <div className="bg-white border rounded-xl shadow-sm overflow-hidden">
+      {/* TABLE CARD */}
+      <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl shadow-2xl overflow-hidden">
 
-        {/* 🔥 UPDATED HEADER */}
-        <div className="flex justify-between items-center px-6 py-4 border-b">
+        {/* TABLE HEADER */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 px-8 py-6 border-b border-[#1f2937]">
 
-          <h3 className="text-sm font-semibold text-gray-700">
-            Recent Users
-          </h3>
+          <div>
+
+            <h3 className="text-2xl font-semibold text-white">
+              Recent Policies
+            </h3>
+
+            <p className="text-gray-400 mt-1">
+              Latest insurance activities
+            </p>
+
+          </div>
 
           <button
-            onClick={() => navigate("/admin/users")}
-            className="bg-[#1f4c7c] hover:bg-[#163b61] text-white px-5 py-2 rounded-lg text-sm shadow-sm"
+            onClick={() => navigate("/admin/policies")}
+            className="h-12 px-6 rounded-xl bg-[#1e293b] hover:bg-[#2563eb] transition text-white"
           >
             View All
           </button>
 
         </div>
 
-        <table className="w-full text-sm">
+        {/* CONTENT */}
+        <div className="overflow-x-auto">
 
-          <thead className="bg-gray-50 text-gray-500">
-            <tr>
-              <th className="p-4 text-left">User</th>
-              <th className="text-left">Ref ID</th>
-              <th className="text-left">Status</th>
-              <th className="text-center">Actions</th>
-            </tr>
-          </thead>
+          {loading ? (
+            <div className="p-8">
+              <Skeleton />
+            </div>
+          ) : recent.length === 0 ? (
+            <NoData
+              title="No Policies Found"
+              description="There are currently no insurance policies available."
+            />
+          ) : (
+            <table className="w-full min-w-[900px]">
 
-          <tbody>
+              <thead className="bg-[#0f172a]">
 
-            {/* LOADING */}
-            {loading && (
-              <tr>
-                <td colSpan="4" className="p-8 text-center text-gray-400">
-                  Loading users...
-                </td>
-              </tr>
-            )}
+                <tr className="text-left text-gray-400 text-sm">
 
-            {/* NO DATA */}
-            {!loading && users.length === 0 && (
-              <tr>
-                <td colSpan="4" className="p-8 text-center text-gray-400">
-                  No users found
-                </td>
-              </tr>
-            )}
+                  <th className="px-8 py-5 font-medium">
+                    Customer
+                  </th>
 
-            {/* 🔥 UPDATED DATA (recentUsers) */}
-            {!loading && recentUsers.map((u) => (
-              <tr key={u._id} className="border-t hover:bg-gray-50 transition">
+                  <th className="px-6 py-5 font-medium">
+                    Policy Number
+                  </th>
 
-                {/* USER */}
-                <td className="p-4 flex items-center gap-3">
-                  <img
-                    src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${u.image}`}
-                    className="w-10 h-10 rounded-full object-cover border"
-                  />
-                  <div>
-                    <p className="font-medium text-gray-800">{u.name}</p>
-                    <p className="text-xs text-gray-400">{u.passport}</p>
-                  </div>
-                </td>
+                  <th className="px-6 py-5 font-medium">
+                    Ref ID
+                  </th>
 
-                {/* REF */}
-                <td className="font-mono text-gray-600">{u.refId}</td>
+                  <th className="px-6 py-5 font-medium">
+                    Status
+                  </th>
 
-                {/* STATUS */}
-                <td>
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold
-                    ${u.status === "Approved" && "bg-green-100 text-green-600"}
-                    ${u.status === "Pending" && "bg-yellow-100 text-yellow-600"}
-                    ${u.status === "Rejected" && "bg-red-100 text-red-600"}
-                  `}>
-                    {u.status}
-                  </span>
-                </td>
+                  <th className="px-8 py-5 font-medium text-center">
+                    Actions
+                  </th>
 
-                {/* ACTIONS */}
-                <td className="text-center">
-                  <div className="flex justify-center gap-4">
+                </tr>
 
-                    <button
-                      onClick={() => navigate(`/admin/user/${u._id}`)}
-                      className="p-2 rounded-md hover:bg-gray-100 text-[#1f4c7c]"
-                    >
-                      <FiEye size={18} />
-                    </button>
+              </thead>
 
-                    <button
-                      onClick={async () => {
-                        if (!window.confirm("Delete this user?")) return;
-                        await API.delete(`/user/${u._id}`);
-                        toast.success("User deleted");
-                        getUsers();
-                      }}
-                      className="p-2 rounded-md hover:bg-red-50 text-red-500"
-                    >
-                      <FiTrash2 size={18} />
-                    </button>
+              <tbody>
 
-                  </div>
-                </td>
+                {recent.map((item) => (
 
-              </tr>
-            ))}
+                  <tr
+                    key={item._id}
+                    className="border-t border-[#1f2937] hover:bg-[#0f172a]/60 transition"
+                  >
 
-          </tbody>
+                    {/* CUSTOMER */}
+                    <td className="px-8 py-5">
 
-        </table>
+                      <div className="flex items-center gap-4">
+
+                       <img
+  src={
+    item.image
+      ? `${import.meta.env.VITE_API_URL.replace("/api", "")}/${item.image}`
+      : `https://ui-avatars.com/api/?name=${item.name}&background=2563eb&color=fff`
+  }
+  alt={item.name}
+  className="w-14 h-14 rounded-2xl object-cover border border-[#1f2937]"
+/>
+
+                        <div>
+
+                          <p className="text-white font-semibold">
+                            {item.name}
+                          </p>
+
+                          <p className="text-gray-500 text-sm mt-1">
+                            {item.insuranceType}
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    </td>
+
+                    {/* POLICY */}
+                    <td className="px-6 py-5 text-gray-300 font-medium">
+                      {item.policyNumber}
+                    </td>
+
+                    {/* REF ID */}
+                    <td className="px-6 py-5 text-gray-400 font-mono">
+                      {item.refId}
+                    </td>
+
+                    {/* STATUS */}
+                    <td className="px-6 py-5">
+
+                      <span
+                        className={`px-4 py-2 rounded-full text-xs font-semibold
+                        ${
+                          item.status === "Approved"
+                            ? "bg-green-500/10 text-green-400"
+                            : item.status === "Pending"
+                            ? "bg-yellow-500/10 text-yellow-400"
+                            : "bg-red-500/10 text-red-400"
+                        }`}
+                      >
+                        {item.status}
+                      </span>
+
+                    </td>
+
+                    {/* ACTIONS */}
+                    <td className="px-8 py-5">
+
+                      <div className="flex items-center justify-center gap-3">
+
+                        {/* VIEW */}
+                        <button
+                          onClick={() =>
+                            navigate(`/admin/policy/${item._id}`)
+                          }
+                          className="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition flex items-center justify-center"
+                        >
+                          <FiEye size={18} />
+                        </button>
+
+                        {/* DELETE */}
+                        <button
+                          onClick={async () => {
+                            if (
+                              !window.confirm(
+                                "Delete this policy?"
+                              )
+                            )
+                              return;
+
+                            await deleteInsurance(item._id);
+
+                            toast.success("Policy deleted");
+
+                            fetchData();
+                          }}
+                          className="w-11 h-11 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition flex items-center justify-center"
+                        >
+                          <FiTrash2 size={18} />
+                        </button>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                ))}
+
+              </tbody>
+
+            </table>
+          )}
+
+        </div>
 
       </div>
 
-    </>
+    </div>
   );
 };
 

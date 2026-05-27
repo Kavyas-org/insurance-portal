@@ -1,261 +1,243 @@
+import { Link } from "react-router-dom";
+import {
+  FiShield,
+  FiDollarSign,
+  FiTrendingUp,
+  FiPhoneCall,
+} from "react-icons/fi";
+
 const About = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white overflow-hidden">
 
-      {/* HERO */}
+      {/* ================= HERO SECTION ================= */}
       <section
-        className="relative w-full h-[300px] md:h-[380px] flex items-center"
+        className="relative h-[420px] md:h-[520px] bg-cover bg-center flex items-center"
         style={{
-          backgroundImage: "url('/about-imgs/image-1.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1920&auto=format&fit=crop')",
         }}
       >
 
         {/* OVERLAY */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-[#0f172a]/70"></div>
 
         {/* CONTENT */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-white">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
 
-          {/* TITLE */}
-          <h1 className="text-3xl md:text-4xl font-semibold">
-            About Us
-          </h1>
+          <div className="max-w-2xl">
 
-          {/* SMALL LINE */}
-          <div className="w-10 h-[2px] bg-red-500 mt-3"></div>
+            <span className="inline-block bg-[#0ea5e9] text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
+              Trusted Insurance Partner
+            </span>
 
-          {/* OPTIONAL SUBTEXT */}
-          <p className="mt-3 text-sm opacity-90 max-w-md">
-            Building excellence through innovation, sustainability and expertise
-          </p>
+            <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
+              About Veltrix Global Insurance
+            </h1>
+
+            <p className="text-gray-300 text-lg leading-8 mt-6">
+              Protecting families, businesses, and futures with reliable
+              insurance solutions designed for modern life.
+            </p>
+
+          </div>
 
         </div>
 
       </section>
 
+      {/* ================= ABOUT SECTION ================= */}
+      <section className="py-24 bg-[#f8fafc]">
 
-      {/* COMPANY OVERVIEW */}
-<section className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
 
-  <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-    {/* TITLE */}
-    <h2 className="text-2xl md:text-3xl font-medium text-[#1f4c7c]">
-      Corporate Profile
-    </h2>
+            {/* LEFT */}
+            <div className="relative">
 
-    {/* RED LINE */}
-    <div className="w-[2px] h-10 bg-red-600 mx-auto my-6"></div>
+              <img
+                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop"
+                alt="About Insurance"
+                className="rounded-[32px] shadow-2xl w-full h-[500px] object-cover"
+              />
 
-    {/* TEXT */}
-    <p className="text-gray-600 text-sm leading-relaxed">
-      Gammon Group Companies is a leading construction and engineering contractor,
-      delivering high-quality infrastructure, building, and civil engineering projects
-      across multiple regions. With decades of experience, the company has built a strong
-      reputation for excellence, innovation, and reliability.
-    </p>
+              {/* FLOATING CARD */}
+              <div className="absolute -bottom-8 -right-8 bg-white shadow-2xl rounded-3xl p-6 w-[240px] border border-gray-100">
 
-    <p className="text-gray-600 text-sm leading-relaxed mt-4">
-      Our expertise spans a wide range of sectors including commercial developments,
-      infrastructure projects, and advanced engineering solutions. We are committed to
-      delivering projects safely, efficiently, and sustainably while maintaining the
-      highest standards of quality.
-    </p>
+                <h3 className="text-4xl font-bold text-[#2563eb]">
+                  10K+
+                </h3>
 
-  </div>
+                <p className="text-gray-600 mt-2 leading-7">
+                  Happy clients trust our insurance services worldwide.
+                </p>
 
-</section>
+              </div>
 
+            </div>
 
+            {/* RIGHT */}
+            <div>
 
+              <span className="inline-block bg-[#0ea5e9] text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
+                About Us
+              </span>
 
-{/* SPLIT SECTION */}
-<section className="py-20 bg-[#f8f9fb]">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a] leading-tight">
+                Insurance Solutions Built For Your Future
+              </h2>
 
-  <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+              <p className="text-gray-600 text-lg leading-9 mt-8">
+                Veltrix Global Insurance provides reliable and flexible
+                insurance solutions for individuals, families, and
+                businesses. We focus on delivering trust, financial
+                protection, and long-term security through innovative
+                insurance services.
+              </p>
 
-    {/* IMAGE */}
-    <div>
-      <img
-        src="/News-images/image-1.png"
-        className="w-full h-[350px] object-cover"
-      />
-    </div>
+              {/* FEATURES */}
+              <div className="grid sm:grid-cols-2 gap-5 mt-10">
 
-    {/* TEXT */}
-    <div>
+                {/* ITEM */}
+                <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 hover:-translate-y-1 transition">
 
-      <h3 className="text-xl font-medium text-[#1f4c7c] mb-4">
-        Delivering Excellence in Construction
-      </h3>
+                  <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mb-5">
 
-      <div className="w-10 h-[2px] bg-red-500 mb-4"></div>
+                    <FiShield className="text-[#2563eb] text-2xl" />
 
-      <p className="text-gray-600 text-sm leading-relaxed">
-        With a strong foundation in engineering and project management,
-        Gammon has successfully delivered numerous landmark projects.
-        Our ability to manage complex construction challenges sets us apart
-        in the industry.
-      </p>
+                  </div>
 
-      <p className="text-gray-600 text-sm leading-relaxed mt-4">
-        We integrate advanced technology and innovative construction methods
-        to ensure efficiency, safety, and sustainability in all our projects.
-      </p>
+                  <h3 className="text-xl font-semibold text-[#0f172a]">
+                    Wealth Protection
+                  </h3>
 
-    </div>
+                  <p className="text-gray-500 mt-3 leading-7">
+                    Secure your future with trusted coverage and protection plans.
+                  </p>
 
-  </div>
+                </div>
 
-</section>
+                {/* ITEM */}
+                <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 hover:-translate-y-1 transition">
 
+                  <div className="w-14 h-14 rounded-2xl bg-cyan-100 flex items-center justify-center mb-5">
 
-{/* CORPORATE PROFILE GRID */}
-<section className="bg-white py-20">
+                    <FiDollarSign className="text-[#0ea5e9] text-2xl" />
 
-  <div className="max-w-7xl mx-auto px-6">
+                  </div>
 
-    {/* TITLE */}
-    <h2 className="text-center text-2xl font-medium text-[#1f4c7c] mb-12">
-      Corporate Profile
-    </h2>
+                  <h3 className="text-xl font-semibold text-[#0f172a]">
+                    Financial Security
+                  </h3>
 
-    {/* GRID */}
-    <div className="grid md:grid-cols-2">
+                  <p className="text-gray-500 mt-3 leading-7">
+                    Smart insurance plans designed for long-term stability.
+                  </p>
 
-      {/* ROW 1 */}
-      <img src="/about-imgs/image-2.png" className="w-full h-[300px] object-cover" />
+                </div>
 
-      <div className="bg-[#1f4c7c] text-white p-10 flex flex-col justify-center">
-        <h3 className="text-lg font-semibold mb-4">
-          To be the Contractor of Choice
-        </h3>
-        <p className="text-sm leading-relaxed">
-          Headquartered in Hong Kong, Gammon has a reputation for delivering
-          high-quality projects throughout China and Southeast Asia. Our integrated
-          business focuses on civil, building, foundations, electrical and mechanical,
-          facades and interiors works.
-        </p>
-      </div>
+                {/* ITEM */}
+                <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 hover:-translate-y-1 transition">
 
-      {/* ROW 2 */}
-      <div className="bg-[#1f4c7c] text-white p-10 flex flex-col justify-center">
-        <h3 className="text-lg font-semibold mb-4">
-          Customer Focused
-        </h3>
-        <p className="text-sm leading-relaxed">
-          At Gammon, we focus on our customers' needs and have never been more
-          committed to delivering high quality solutions.
-        </p>
-      </div>
+                  <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mb-5">
 
-      <img src="/about-imgs/image-3.png" className="w-full h-[300px] object-cover" />
+                    <FiTrendingUp className="text-[#2563eb] text-2xl" />
 
-      {/* ROW 3 */}
-      <img src="/about-imgs/image-4.png" className="w-full h-[300px] object-cover" />
+                  </div>
 
-      <div className="bg-[#1f4c7c] text-white p-10 flex flex-col justify-center">
-        <h3 className="text-lg font-semibold mb-4">
-          Local Presence, Global Strength
-        </h3>
-        <p className="text-sm leading-relaxed">
-          We have a strong presence in Hong Kong, Singapore and across Asia,
-          delivering world-class infrastructure and engineering solutions.
-        </p>
-      </div>
+                  <h3 className="text-xl font-semibold text-[#0f172a]">
+                    Growth & Trust
+                  </h3>
 
-      {/* ROW 4 */}
-      <div className="bg-[#1f4c7c] text-white p-10 flex flex-col justify-center">
-        <h3 className="text-lg font-semibold mb-4">
-          Shareholders – Jardine Matheson
-        </h3>
-        <p className="text-sm leading-relaxed">
-          Jardine Matheson is a diversified Asian-based group with strong
-          presence across multiple sectors and industries.
-        </p>
-      </div>
+                  <p className="text-gray-500 mt-3 leading-7">
+                    Building long-term relationships through reliable support.
+                  </p>
 
-      <img src="/about-imgs/image-5.png" className="w-full h-[300px] object-cover" />
+                </div>
 
-      {/* ROW 5 */}
-      <img src="/about-imgs/image-6.png" className="w-full h-[300px] object-cover" />
+                {/* ITEM */}
+                <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 hover:-translate-y-1 transition">
 
-      <div className="bg-[#1f4c7c] text-white p-10 flex flex-col justify-center">
-        <h3 className="text-lg font-semibold mb-4">
-          Shareholders – Balfour Beatty
-        </h3>
-        <p className="text-sm leading-relaxed">
-          Balfour Beatty is a leading international infrastructure group that
-          delivers complex engineering and construction projects.
-        </p>
-      </div>
+                  <div className="w-14 h-14 rounded-2xl bg-cyan-100 flex items-center justify-center mb-5">
 
-    </div>
+                    <FiPhoneCall className="text-[#0ea5e9] text-2xl" />
 
-  </div>
+                  </div>
 
-</section>
+                  <h3 className="text-xl font-semibold text-[#0f172a]">
+                    24/7 Assistance
+                  </h3>
 
+                  <p className="text-gray-500 mt-3 leading-7">
+                    Dedicated support team ready to help anytime you need.
+                  </p>
 
-{/* CORE VALUES - MISSION / VISION */}
-<section className="bg-[#f2f4f7] py-20">
+                </div>
 
-  <div className="max-w-7xl mx-auto px-6 text-center">
+              </div>
 
-    {/* TITLE */}
-    <h2 className="text-2xl font-medium text-[#1f4c7c]">
-      Core Values
-    </h2>
+            </div>
 
-    {/* RED LINE */}
-    <div className="w-[2px] h-10 bg-red-600 mx-auto my-6"></div>
+          </div>
 
-    {/* DESC */}
-    <p className="text-gray-600 text-sm max-w-3xl mx-auto">
-      Gammon has a set of Core Values that define our work ethic and guide our workforce
-      in today’s rapidly changing and challenging world. The Core Values – Safety, Integrity
-      and Excellence – have been incorporated into a philosophy called The Gammon Way.
-    </p>
+        </div>
 
-  </div>
+      </section>
 
-  {/* GRID */}
-  <div className="mt-12 grid md:grid-cols-2">
+      {/* ================= CTA SECTION ================= */}
+      <section
+        className="relative py-24 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1920&auto=format&fit=crop')",
+        }}
+      >
 
-    {/* ROW 1 */}
-    <img
-      src="/about-imgs/image-7.png"
-      className="w-full h-[320px] object-cover"
-    />
+        {/* OVERLAY */}
+        <div className="absolute inset-0 bg-[#0f172a]/80"></div>
 
-    <div className="bg-[#1f4c7c] text-white flex flex-col justify-center items-center text-center px-10">
-      <h3 className="text-lg font-semibold mb-3">Our Mission</h3>
-      <div className="w-6 h-[2px] bg-white mb-4"></div>
-      <p className="text-sm max-w-xs leading-relaxed">
-        To build for a better quality of life and living environment in a safe and sustainable manner.
-      </p>
-    </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
 
-    {/* ROW 2 */}
-    <div className="bg-[#1f4c7c] text-white flex flex-col justify-center items-center text-center px-10">
-      <h3 className="text-lg font-semibold mb-3">Our Vision</h3>
-      <div className="w-6 h-[2px] bg-white mb-4"></div>
-      <p className="text-sm max-w-sm leading-relaxed">
-        To be the contractor of choice in Hong Kong, China and Southeast Asia. Deliver high quality,
-        safely and responsibly through innovation and excellence.
-      </p>
-    </div>
+          <div className="max-w-3xl">
 
-    <img
-      src="/about-imgs/image-8.png"
-      className="w-full h-[320px] object-cover"
-    />
+            <span className="inline-block bg-[#0ea5e9] text-white text-sm font-medium px-4 py-2 rounded-full mb-6">
+              Need Assistance?
+            </span>
 
-  </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+              Get Professional Insurance Consultation Today
+            </h2>
 
-</section>
+            <p className="text-gray-300 text-lg leading-8 mt-6">
+              Our experts are ready to help you choose the right insurance
+              plan for your future, family, and business protection.
+            </p>
+
+            {/* BUTTONS */}
+            <div className="flex flex-wrap gap-5 mt-10">
+
+              <Link
+                to="/contact"
+                className="h-14 px-8 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 transition text-white font-semibold flex items-center justify-center"
+              >
+                Contact Us
+              </Link>
+
+              <Link
+                to="/verify"
+                className="h-14 px-8 rounded-2xl border border-white/20 hover:bg-white/10 transition text-white font-semibold flex items-center justify-center"
+              >
+                Verify Policy
+              </Link>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
 
     </div>
   );

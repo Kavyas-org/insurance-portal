@@ -75,7 +75,6 @@ router.post("/login", async (req, res) => {
 const protect = (req, res, next) => {
   const header = req.headers.authorization;
 
-  // ✅ validation
   if (!header || !header.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Invalid token format" });
   }
@@ -83,10 +82,14 @@ const protect = (req, res, next) => {
   const token = header.split(" ")[1];
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // 👉 optional: attach admin id to request
+    req.adminId = decoded.id;
+
     next();
-  } catch {
-    res.status(401).json({ message: "Invalid token" });
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
   }
 };
 

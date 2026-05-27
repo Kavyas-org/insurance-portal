@@ -107,8 +107,48 @@ router.post(
 ========================= */
 router.get("/", protect, async (req, res) => {
   try {
-    const data = await Insurance.find().sort({ createdAt: -1 });
-    res.json(data);
+    const {
+      page = 1,
+      limit = 10,
+      search = "",
+      status
+    } = req.query;
+
+    const query = {};
+
+    /* =========================
+       SEARCH (name + refId)
+    ========================= */
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { refId: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    /* =========================
+       FILTER (status)
+    ========================= */
+    if (status) {
+      query.status = status;
+    }
+
+    const skip = (page - 1) * limit;
+
+    const data = await Insurance.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await Insurance.countDocuments(query);
+
+    res.json({
+      total,
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+      data
+    });
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -155,17 +195,42 @@ router.get("/:refId", async (req, res) => {
 ========================= */
 router.put("/:id", protect, async (req, res) => {
   try {
-    const data = await Insurance.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const { status, tracking, ...rest } = req.body;
 
-    if (!data) {
+    const insurance = await Insurance.findById(req.params.id);
+
+    if (!insurance) {
       return res.status(404).json({ message: "Record not found" });
     }
 
-    res.json(data);
+    /* =========================
+       UPDATE BASIC FIELDS
+    ========================= */
+    Object.assign(insurance, rest);
+
+    /* =========================
+       UPDATE STATUS
+    ========================= */
+    if (status) {
+      const validStatus = ["Pending", "Approved", "Rejected"];
+
+      if (!validStatus.includes(status)) {
+        return res.status(400).json({ message: "Invalid status" });
+      }
+
+      insurance.status = status;
+    }
+
+    /* =========================
+       UPDATE TRACKING
+    ========================= */
+    if (tracking && Array.isArray(tracking)) {
+      insurance.tracking = tracking;
+    }
+
+    await insurance.save();
+
+    res.json(insurance);
 
   } catch (err) {
     res.status(500).json({ error: err.message });

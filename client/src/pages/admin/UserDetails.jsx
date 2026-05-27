@@ -1,210 +1,360 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import API from "../../services/api";
-import Layout from "../../components/admin/Layout";
+import { useParams, useNavigate } from "react-router-dom";
+
+import {
+  updateInsurance,
+  getInsuranceById,
+} from "../../services/api";
+
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+
+import {
+  FiEdit2,
+  FiX,
+  FiSave,
+  FiFileText,
+  FiShield,
+  FiUser,
+  FiCalendar,
+  FiDollarSign,
+  FiCheckCircle,
+  FiClock,
+  FiXCircle,
+  FiExternalLink,
+  FiActivity,
+} from "react-icons/fi";
+
+import Skeleton from "../../components/common/Skeleton";
+import NoData from "../../components/common/NoData";
 
 const UserDetails = () => {
   const { id } = useParams();
-  const [user, setUser] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-const navigate = useNavigate();
 
-  const getUser = async () => {
-    try {
-      const res = await API.get(`/user/id/${id}`);
-      setUser(res.data);
-    } catch {
-      toast.error("User not found");
-    }
-  };
+  const [data, setData] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getUser();
-  }, []);
+    let isMounted = true;
 
-  // const handleTrackingChange = (index, value) => {
-  //   const updated = [...user.tracking];
-  //   updated[index].status = value;
-  //   setUser({ ...user, tracking: updated });
-  // };
+    const fetchData = async () => {
+      try {
+        const res = await getInsuranceById(id);
+
+        if (isMounted) {
+          setData(res.data);
+        }
+
+      } catch {
+        toast.error("Record not found");
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   const handleSave = async () => {
     try {
-      await API.put(`/user/${id}`, {
-        name: user.name,
-        passport: user.passport,
-        refId: user.refId,
-        status: user.status,
-        tracking: user.tracking,
-      });
+      await updateInsurance(id, data);
 
       toast.success("Updated successfully");
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Update failed");
+
+      setEditMode(false);
+
+    } catch {
+      toast.error("Update failed");
     }
   };
 
-  if (!user) return <div className="p-6">Loading...</div>;
+  if (!data) {
+    return (
+      <div className="p-6">
+        <Skeleton />
+      </div>
+    );
+  }
+
+  const imageUrl = data.image
+    ? `${import.meta.env.VITE_API_URL.replace("/api", "")}/${data.image}`
+    : `https://ui-avatars.com/api/?name=${data.name}&background=2563eb&color=fff`;
 
   return (
-   <>
-  {/* HEADER */}
-  <div className="flex justify-between items-center mb-8">
+    <div className="max-w-7xl mx-auto space-y-8">
 
-    <div>
-      <h1 className="text-2xl font-semibold text-gray-800">
-        User Details
-      </h1>
-      <p className="text-sm text-gray-500">
-        View and manage user information
-      </p>
-    </div>
+      {/* HEADER */}
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-    <div className="flex gap-3">
+        <div>
 
-      {!editMode ? (
-        <button
-          onClick={() => setEditMode(true)}
-          className="bg-[#1f4c7c] text-white px-5 py-2 rounded-lg text-sm"
-        >
-          Edit User
-        </button>
-      ) : (
-        <button
-          onClick={() => setEditMode(false)}
-          className="text-sm text-gray-500 hover:underline"
-        >
-          Cancel
-        </button>
-      )}
+          <div className="inline-flex items-center gap-2 bg-[#172554] border border-blue-500/20 text-blue-300 px-4 py-2 rounded-full text-sm mb-4">
 
-      <button
-        onClick={() => navigate(`/admin/user/${id}/tracking`)}
-        className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm"
-      >
-        Manage Tracking
-      </button>
+            <FiShield />
 
-    </div>
+            Policy Management
 
-  </div>
+          </div>
 
-  {/* CARD */}
-  <div className="bg-white border rounded-xl shadow-sm p-8 max-w-3xl space-y-8">
+          <h1 className="text-4xl font-bold text-white">
+            Policy Details
+          </h1>
 
-    {/* USER PROFILE */}
-    <div className="flex items-center gap-4">
-      <img
-        src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${user.image}`}
-        className="w-20 h-20 rounded-full object-cover border"
-      />
+          <p className="text-gray-400 mt-3 text-lg">
+            View and manage insurance policy records
+          </p>
 
-      <div>
-        <h2 className="font-semibold text-gray-800">{user.name}</h2>
-        <p className="text-sm text-gray-500">{user.passport}</p>
-        <p><b>Date of Birth:</b> {user.dob?.slice(0, 10)}</p>
-        <p><b>Salary:</b> ₹{user.salary}</p>
-      </div>
-    </div>
-
-    {/* BASIC INFO */}
-    <div className="grid md:grid-cols-2 gap-6">
-
-      <div>
-        <label className="text-xs text-gray-500 font-semibold">NAME</label>
-        <input
-          value={user.name}
-          disabled={!editMode}
-          onChange={(e) =>
-            setUser({ ...user, name: e.target.value })
-          }
-          className="w-full mt-2 border p-3 rounded-lg bg-gray-50 disabled:opacity-70 focus:ring-2 focus:ring-[#1f4c7c]"
-        />
-      </div>
-
-      <div>
-        <label className="text-xs text-gray-500 font-semibold">PASSPORT</label>
-        <input
-          value={user.passport}
-          disabled={!editMode}
-          onChange={(e) =>
-            setUser({ ...user, passport: e.target.value })
-          }
-          className="w-full mt-2 border p-3 rounded-lg bg-gray-50 disabled:opacity-70 focus:ring-2 focus:ring-[#1f4c7c]"
-        />
-      </div>
-
-      <div>
-        <label className="text-xs text-gray-500 font-semibold">REFERENCE ID</label>
-        <input
-          value={user.refId}
-          disabled={!editMode}
-          onChange={(e) =>
-            setUser({ ...user, refId: e.target.value })
-          }
-          className="w-full mt-2 border p-3 rounded-lg bg-gray-50 disabled:opacity-70 focus:ring-2 focus:ring-[#1f4c7c]"
-        />
-      </div>
-
-      <div>
-        <label className="text-xs text-gray-500 font-semibold">STATUS</label>
-        <select
-          value={user.status}
-          disabled={!editMode}
-          onChange={(e) =>
-            setUser({ ...user, status: e.target.value })
-          }
-          className="w-full mt-2 border p-3 rounded-lg bg-gray-50 disabled:opacity-70 focus:ring-2 focus:ring-[#1f4c7c]"
-        >
-          <option>Pending</option>
-          <option>Approved</option>
-          <option>Rejected</option>
-        </select>
-      </div>
-
-    </div>
-
-    {/* TRACKING */}
-    {/* <div>
-  <h3 className="text-sm font-semibold text-gray-700 mb-6">
-    Application Tracking
-  </h3>
-
-  <div className="space-y-6">
-
-    {user.tracking?.map((step, index) => (
-      <div key={index} className="flex items-start gap-4">
-
-        <div className="flex flex-col items-center">
-          <div className={`w-4 h-4 rounded-full
-            ${step.status === "Done" ? "bg-green-500" : "bg-gray-300"}
-          `}></div>
-
-          {index !== user.tracking.length - 1 && (
-            <div className="w-[2px] h-10 bg-gray-300"></div>
-          )}
         </div>
 
-        <div className="flex-1 bg-white border rounded-lg p-4">
+        {/* ACTIONS */}
+        <div className="flex flex-wrap gap-4">
 
-          <div className="flex justify-between items-center">
+          {/* TRACKING */}
+          <button
+            onClick={() =>
+              navigate(`/admin/policy/${id}/tracking`)
+            }
+            className="h-12 px-6 rounded-2xl bg-gradient-to-r from-[#10b981] to-[#059669] hover:opacity-90 transition text-white font-semibold shadow-lg flex items-center gap-2"
+          >
+            <FiActivity />
+            Manage Tracking
+          </button>
 
-            <p className="text-sm font-medium text-gray-800">
-              {step.title}
-            </p>
+          {!editMode ? (
+            <button
+              onClick={() => setEditMode(true)}
+              className="h-12 px-6 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 transition text-white font-semibold shadow-lg flex items-center gap-2"
+            >
+              <FiEdit2 />
+              Edit Policy
+            </button>
+          ) : (
+            <button
+              onClick={() => setEditMode(false)}
+              className="h-12 px-6 rounded-2xl border border-[#374151] hover:bg-[#1f2937] transition text-gray-300 font-semibold flex items-center gap-2"
+            >
+              <FiX />
+              Cancel
+            </button>
+          )}
 
-            <select
-              value={step.status}
+        </div>
+
+      </div>
+
+      {/* PROFILE CARD */}
+      <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl p-6 lg:p-8 shadow-2xl">
+
+        <div className="flex flex-col lg:flex-row lg:items-center gap-8">
+
+          {/* IMAGE */}
+          <img
+            src={imageUrl}
+            alt={data.name}
+            className="w-28 h-28 rounded-3xl object-cover border-2 border-[#2563eb]/30 shadow-xl"
+          />
+
+          {/* INFO */}
+          <div className="flex-1">
+
+            <h2 className="text-3xl font-bold text-white">
+              {data.name}
+            </h2>
+
+            <div className="flex flex-wrap gap-4 mt-4">
+
+              <div className="px-4 py-2 rounded-xl bg-[#0f172a] border border-[#1f2937] text-gray-300 text-sm">
+                Policy: {data.policyNumber}
+              </div>
+
+              <div className="px-4 py-2 rounded-xl bg-[#0f172a] border border-[#1f2937] text-gray-300 text-sm">
+                Ref ID: {data.refId}
+              </div>
+
+              <div className="px-4 py-2 rounded-xl bg-[#0f172a] border border-[#1f2937] text-gray-300 text-sm">
+                {data.insuranceType}
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* STATUS */}
+          <div>
+
+            <span
+              className={`px-5 py-3 rounded-2xl text-sm font-semibold flex items-center gap-2
+              ${
+                data.status === "Approved"
+                  ? "bg-green-500/10 text-green-400"
+                  : data.status === "Pending"
+                  ? "bg-yellow-500/10 text-yellow-400"
+                  : "bg-red-500/10 text-red-400"
+              }`}
+            >
+
+              {data.status === "Approved" && (
+                <FiCheckCircle />
+              )}
+
+              {data.status === "Pending" && (
+                <FiClock />
+              )}
+
+              {data.status === "Rejected" && (
+                <FiXCircle />
+              )}
+
+              {data.status}
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* DETAILS */}
+      <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl p-6 lg:p-8 shadow-2xl">
+
+        <div className="grid md:grid-cols-2 gap-7">
+
+          {/* NAME */}
+          <div>
+
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <FiUser />
+              Full Name
+            </label>
+
+            <input
+              value={data.name}
               disabled={!editMode}
               onChange={(e) =>
-                handleTrackingChange(index, e.target.value)
+                setData({
+                  ...data,
+                  name: e.target.value,
+                })
               }
-              className="border px-2 py-1 rounded text-sm"
+              className="mt-3 w-full h-14 bg-[#0f172a] border border-[#1f2937] text-white px-5 rounded-2xl focus:border-[#2563eb] focus:ring-4 focus:ring-blue-500/10 outline-none transition"
+            />
+
+          </div>
+
+          {/* POLICY */}
+          <div>
+
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <FiShield />
+              Policy Number
+            </label>
+
+            <input
+              value={data.policyNumber}
+              disabled={!editMode}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  policyNumber: e.target.value,
+                })
+              }
+              className="mt-3 w-full h-14 bg-[#0f172a] border border-[#1f2937] text-white px-5 rounded-2xl focus:border-[#2563eb] focus:ring-4 focus:ring-blue-500/10 outline-none transition"
+            />
+
+          </div>
+
+          {/* TYPE */}
+          <div>
+
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <FiShield />
+              Insurance Type
+            </label>
+
+            <input
+              value={data.insuranceType}
+              disabled={!editMode}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  insuranceType: e.target.value,
+                })
+              }
+              className="mt-3 w-full h-14 bg-[#0f172a] border border-[#1f2937] text-white px-5 rounded-2xl focus:border-[#2563eb] focus:ring-4 focus:ring-blue-500/10 outline-none transition"
+            />
+
+          </div>
+
+          {/* PREMIUM */}
+          <div>
+
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <FiDollarSign />
+              Premium Amount
+            </label>
+
+            <input
+              value={data.premiumAmount}
+              disabled={!editMode}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  premiumAmount: e.target.value,
+                })
+              }
+              className="mt-3 w-full h-14 bg-[#0f172a] border border-[#1f2937] text-white px-5 rounded-2xl focus:border-[#2563eb] focus:ring-4 focus:ring-blue-500/10 outline-none transition"
+            />
+
+          </div>
+
+          {/* DOB */}
+          <div>
+
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <FiCalendar />
+              Date Of Birth
+            </label>
+
+            <input
+              value={data.dob?.slice(0, 10)}
+              disabled={!editMode}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  dob: e.target.value,
+                })
+              }
+              className="mt-3 w-full h-14 bg-[#0f172a] border border-[#1f2937] text-white px-5 rounded-2xl focus:border-[#2563eb] focus:ring-4 focus:ring-blue-500/10 outline-none transition"
+            />
+
+          </div>
+
+          {/* STATUS */}
+          <div>
+
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <FiShield />
+              Status
+            </label>
+
+            <select
+              value={data.status}
+              disabled={!editMode}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  status: e.target.value,
+                })
+              }
+              className="mt-3 w-full h-14 bg-[#0f172a] border border-[#1f2937] text-white px-5 rounded-2xl focus:border-[#2563eb] focus:ring-4 focus:ring-blue-500/10 outline-none transition"
             >
               <option>Pending</option>
-              <option>Done</option>
+              <option>Approved</option>
+              <option>Rejected</option>
             </select>
 
           </div>
@@ -212,23 +362,81 @@ const navigate = useNavigate();
         </div>
 
       </div>
-    ))}
 
-  </div>
-</div> */}
+      {/* PDF DOCUMENT */}
+      <div className="bg-[#111827]/90 backdrop-blur-xl border border-[#1f2937] rounded-3xl p-6 lg:p-8 shadow-2xl">
 
-    {/* SAVE BUTTON */}
-    {editMode && (
-      <button
-        onClick={handleSave}
-        className="bg-[#1f4c7c] hover:bg-[#163b61] text-white px-6 py-2 rounded-lg text-sm"
-      >
-        Save Changes
-      </button>
-    )}
+        <div className="flex items-center gap-3 mb-6">
 
-  </div>
-</>
+          <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+            <FiFileText className="text-blue-400 text-2xl" />
+          </div>
+
+          <div>
+
+            <h3 className="text-2xl font-semibold text-white">
+              Policy Document
+            </h3>
+
+            <p className="text-gray-400 mt-1">
+              Insurance PDF verification document
+            </p>
+
+          </div>
+
+        </div>
+
+        {data.document ? (
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 bg-[#0f172a] border border-[#1f2937] rounded-2xl p-6">
+
+            <div>
+
+              <p className="text-white font-semibold">
+                PDF Uploaded Successfully
+              </p>
+
+              <p className="text-gray-500 mt-2">
+                Secure insurance document available
+              </p>
+
+            </div>
+
+            <a
+              href={`${import.meta.env.VITE_API_URL.replace("/api", "")}/${data.document}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-12 px-6 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 transition text-white font-semibold shadow-lg inline-flex items-center justify-center gap-2"
+            >
+              <FiExternalLink />
+              View PDF
+            </a>
+
+          </div>
+        ) : (
+          <NoData
+            title="No Document Uploaded"
+            description="This insurance policy does not contain any uploaded PDF document."
+          />
+        )}
+
+      </div>
+
+      {/* SAVE BUTTON */}
+      {editMode && (
+        <div className="flex justify-end">
+
+          <button
+            onClick={handleSave}
+            className="h-14 px-8 rounded-2xl bg-gradient-to-r from-[#10b981] to-[#059669] hover:opacity-90 transition text-white font-semibold shadow-xl flex items-center gap-2"
+          >
+            <FiSave />
+            Save Changes
+          </button>
+
+        </div>
+      )}
+
+    </div>
   );
 };
 

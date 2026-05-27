@@ -5,9 +5,9 @@ import PublicLayout from "./components/public/Layout";
 import Home from "./pages/public/Home";
 import Verify from "./pages/public/Verify";
 import About from "./pages/public/About";
-import Business from "./pages/public/Business";
-import Sustainability from "./pages/public/Sustainability";
-import Careers from "./pages/public/Careers";
+import Services from "./pages/public/services";
+// import Sustainability from "./pages/public/Sustainability";
+import Contact from "./pages/public/Contact";
 import ScrollToTop from "./components/common/ScrollToTop";
 // ADMIN
 import AdminLayout from "./components/admin/Layout";
@@ -34,9 +34,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/about" element={<About />} />
-  <Route path="/business" element={<Business />} />
-    <Route path="/sustainability" element={<Sustainability />} />
-    <Route path="/careers" element={<Careers />} />
+  <Route path="/services" element={<Services />} />
+    {/* <Route path="/sustainability" element={<Sustainability />} /> */}
+    <Route path="/Contact" element={<Contact />} />
 
 
       </Route>
@@ -48,10 +48,10 @@ function App() {
      <Route element={<ProtectedRoute />}>
   <Route path="/admin" element={<AdminLayout />}>
     <Route path="dashboard" element={<Dashboard />} />
-    <Route path="add-user" element={<AddUser />} />
-    <Route path="users" element={<Users />} />
-    <Route path="user/:id" element={<UserDetails />} />
-    <Route path="user/:id/tracking" element={<UserTracking />} />
+    <Route path="add-policy" element={<AddUser />} />
+<Route path="policies" element={<Users />} />
+<Route path="policy/:id" element={<UserDetails />} />
+<Route path="policy/:id/tracking" element={<UserTracking />} />
   </Route>
 </Route>
 
