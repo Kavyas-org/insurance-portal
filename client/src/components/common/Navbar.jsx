@@ -16,79 +16,61 @@ const Navbar = () => {
   return (
     <>
       {/* HEADER */}
-      <header className="fixed top-0 left-0 w-full z-50 px-4 lg:px-10 py-4 bg-[#0f172a] border-b border-[#1f2937]">
+     <header className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
 
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+  <div className="max-w-7xl mx-auto px-6">
 
-          {/* LOGO */}
-          <Link to="/" className="flex items-center">
-            <img
-              src="/Logo.png"
-              alt="WorldCare"
-              className="h-10 w-auto object-contain"
-            />
-          </Link>
+    <div className="h-20 flex items-center justify-between">
 
-          {/* DESKTOP NAV */}
-          <div className="hidden lg:flex items-center bg-white rounded-sm overflow-hidden">
+      {/* LOGO */}
+      <Link to="/">
+        <img
+          src="/Logo.png"
+          alt="Veltrix Global Insurance"
+          className="h-11 object-contain"
+        />
+      </Link>
 
-            {/* LINKS */}
-            <nav className="flex items-center px-6">
+      {/* DESKTOP NAV */}
+      <nav className="hidden lg:flex items-center gap-10">
 
-              {navLinks.map((item, i) => (
-                <Link
-                  key={i}
-                  to={item.link}
-                  className="px-5 py-6 text-sm font-medium text-[#111827] hover:text-[#2563eb] transition"
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-            </nav>
-
-            {/* CTA */}
-            <div className="px-6">
-              <Link
-                to="/contact"
-                className="bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 text-white px-6 py-4 rounded-xl text-sm font-semibold transition"
-              >
-                Let's Talk
-              </Link>
-            </div>
-
-          </div>
-
-          {/* RIGHT SUPPORT */}
-          <div className="hidden xl:flex items-center gap-4 text-white">
-
-            <div className="w-12 h-12 rounded-full bg-[#2563eb] flex items-center justify-center">
-              <FiPhone size={18} />
-            </div>
-
-            <div>
-              <p className="text-sm text-gray-400">
-                Need any help?
-              </p>
-
-              <p className="font-semibold">
-                Call: +1 (210) 123-451
-              </p>
-            </div>
-
-          </div>
-
-          {/* MOBILE MENU BUTTON */}
-          <button
-            onClick={() => setOpen(true)}
-            className="lg:hidden text-white"
+        {navLinks.map((item, i) => (
+          <Link
+            key={i}
+            to={item.link}
+            className="text-[15px] font-medium text-gray-700 hover:text-[#2563eb] transition"
           >
-            <FiMenu size={26} />
-          </button>
+            {item.name}
+          </Link>
+        ))}
 
-        </div>
+      </nav>
 
-      </header>
+      {/* CTA */}
+      <div className="hidden lg:block">
+
+        <Link
+          to="/contact"
+          className="bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] text-white px-7 py-3 rounded-xl font-semibold hover:opacity-90 transition"
+        >
+          Let's Talk
+        </Link>
+
+      </div>
+
+      {/* MOBILE */}
+      <button
+        onClick={() => setOpen(true)}
+        className="lg:hidden text-[#111827]"
+      >
+        <FiMenu size={26} />
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
 
       {/* MOBILE MENU */}
       <div

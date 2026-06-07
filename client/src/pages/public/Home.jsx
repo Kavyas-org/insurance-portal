@@ -5,169 +5,239 @@ import {
   FiDollarSign,
   FiUsers,
   FiCheckCircle,
+ 
 } from "react-icons/fi";
+import {
+  FaShieldAlt,
+  FaHandHoldingUsd,
+} from "react-icons/fa";
 
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
     <div className="bg-[#0f172a]">
 
       {/* HERO SECTION */}
-      <section className="relative min-h-[95vh] overflow-hidden flex items-center">
+<section
+  className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+  style={{
+    backgroundImage: "url('home-imgs/hero-img.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
 
-        {/* BACKGROUND IMAGE */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url('/hero-family.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
+  {/* LIGHT OVERLAY */}
+  <div className="absolute inset-0 bg-gradient-to-r from-[#d9f99d]/80 via-[#d9f99d]/60 to-[#67e8f9]/40"></div>
 
-          {/* DARK OVERLAY */}
-          <div className="absolute inset-0 bg-[#0f172a]/75"></div>
+  {/* CONTENT */}
+  <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+
+    {/* BADGE */}
+    <span className="inline-flex items-center bg-white/80 backdrop-blur-md px-5 py-2 rounded-full text-sm font-medium text-[#2563eb] shadow-lg">
+      Trusted Global Insurance Provider
+    </span>
+
+    {/* HEADING */}
+    <h1 className="mt-8 text-5xl md:text-7xl font-bold text-[#0f172a] leading-tight">
+
+      Protect Today For A Brighter
+
+      <br />
+
+      <span className="text-[#2563eb]">
+        Tomorrow
+      </span>
+
+    </h1>
+
+    {/* DESCRIPTION */}
+    <p className="mt-8 text-lg text-gray-700 leading-8 max-w-3xl mx-auto">
+      Gain peace of mind with our trusted insurance solutions.
+      Protect your loved ones, secure your future, and enjoy
+      reliable coverage whenever you need it.
+    </p>
+
+    {/* PEOPLE + TRUST */}
+    <div className="flex justify-center items-center gap-4 mt-8">
+
+      <div className="flex -space-x-3">
+
+        <img
+          src="https://randomuser.me/api/portraits/women/44.jpg"
+          className="w-10 h-10 rounded-full border-2 border-white"
+        />
+
+        <img
+          src="https://randomuser.me/api/portraits/men/32.jpg"
+          className="w-10 h-10 rounded-full border-2 border-white"
+        />
+
+        <img
+          src="https://randomuser.me/api/portraits/women/68.jpg"
+          className="w-10 h-10 rounded-full border-2 border-white"
+        />
+
+      </div>
+
+      <div className="text-left">
+
+        <h4 className="font-bold text-[#0f172a]">
+          9,675+
+        </h4>
+
+        <p className="text-sm text-gray-600">
+          Happy Customers
+        </p>
+
+      </div>
+
+    </div>
+
+    {/* BUTTONS */}
+    <div className="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+
+    <Link
+  to="/services"
+  className="bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:scale-105 transition"
+>
+  Explore Plans
+</Link>
+
+     <Link
+  to="/verify"
+  className="bg-white text-[#0f172a] px-8 py-4 rounded-xl font-semibold shadow-lg hover:bg-gray-100 transition"
+>
+  Verify Policy
+</Link>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section className="py-24 bg-white overflow-hidden">
+  <div className="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+      {/* IMAGE SIDE */}
+      <div className="relative">
+
+        {/* BLUE SHAPE */}
+        <div className="absolute -top-6 -left-6 w-[85%] h-full bg-gradient-to-b from-[#2563eb] to-[#0ea5e9] -z-10"></div>
+
+        {/* IMAGE */}
+        <img
+          src="home-imgs\about-img.png"
+          alt="Insurance Family"
+          className="w-full h-[600px] object-cover"
+        />
+
+        {/* EXPERIENCE CARD */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-2xl rounded-lg px-10 py-8 text-center">
+
+          <h3 className="text-5xl font-bold text-[#2563eb]">
+            25+
+          </h3>
+
+          <p className="text-gray-800 font-semibold mt-2">
+            Years Experience
+          </p>
 
         </div>
 
-        {/* BLUE GLOW EFFECTS */}
-        <div className="absolute top-20 left-20 w-72 h-72 bg-[#2563eb]/20 blur-[120px] rounded-full"></div>
+      </div>
 
-        <div className="absolute bottom-10 right-10 w-80 h-80 bg-[#0ea5e9]/10 blur-[120px] rounded-full"></div>
+      {/* CONTENT SIDE */}
+      <div>
 
-        {/* MAIN CONTENT */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 w-full">
+        {/* TAG */}
+        <span className="text-[#2563eb] font-semibold uppercase tracking-wider">
+          About Veltrix Global Insurance
+        </span>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        {/* HEADING */}
+        <h2 className="text-4xl lg:text-6xl font-bold text-[#0f172a] leading-tight mt-5">
 
-            {/* LEFT SIDE */}
-            <div>
+          Insurance Protection
 
-              {/* BADGE */}
-              <div className="inline-flex items-center gap-2 bg-[#2563eb]/20 border border-[#2563eb]/30 text-[#60a5fa] px-4 py-2 rounded-full text-sm mb-6">
-                Trusted Insurance Protection
-              </div>
+          <br />
 
-              {/* HEADING */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
+          You Can Trust
 
-                Protect Your <br />
+        </h2>
 
-                <span className="text-[#38bdf8]">
-                  Family & Future
-                </span>
+        {/* TEXT */}
+        <p className="mt-8 text-gray-600 leading-8 text-lg">
+          Veltrix Global Insurance helps individuals, families,
+          and businesses protect what matters most. Our
+          insurance solutions are designed to provide financial
+          security, peace of mind, and dependable support when
+          you need it most.
+        </p>
 
-              </h1>
+        {/* FEATURES */}
+        <div className="grid md:grid-cols-2 gap-8 mt-10 pb-10 border-b border-gray-200">
 
-              {/* DESCRIPTION */}
-              <p className="text-gray-300 text-lg leading-8 mt-8 max-w-xl">
-                Secure your health, travel, and financial future with reliable insurance solutions built for modern families and businesses.
-              </p>
+          <div className="flex items-start gap-4">
 
-              {/* BUTTONS */}
-              <div className="flex flex-col sm:flex-row gap-4 mt-10">
-
-                <button className="bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 text-white px-8 py-4 rounded-xl font-semibold transition">
-                  Get Started
-                </button>
-
-                <button className="border border-white/20 hover:border-[#38bdf8] hover:bg-[#38bdf8]/10 text-white px-8 py-4 rounded-xl font-semibold transition">
-                  Verify Policy
-                </button>
-
-              </div>
-
-              {/* STATS */}
-              <div className="grid grid-cols-3 gap-6 mt-16 max-w-lg">
-
-                <div>
-                  <h3 className="text-3xl font-bold text-white">
-                    25K+
-                  </h3>
-
-                  <p className="text-sm text-gray-400 mt-1">
-                    Active Policies
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-3xl font-bold text-white">
-                    98%
-                  </h3>
-
-                  <p className="text-sm text-gray-400 mt-1">
-                    Client Satisfaction
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-3xl font-bold text-white">
-                    24/7
-                  </h3>
-
-                  <p className="text-sm text-gray-400 mt-1">
-                    Support Service
-                  </p>
-                </div>
-
-              </div>
-
+            <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center text-[#2563eb] text-2xl">
+              <FaShieldAlt />
             </div>
 
-            {/* RIGHT SIDE CARD */}
-            <div className="hidden lg:flex justify-end">
+            <div>
+              <h4 className="font-bold text-xl text-[#0f172a]">
+                Secure Protection
+              </h4>
 
-              <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-8 w-full max-w-md shadow-2xl">
+              <p className="text-gray-600 mt-2">
+                Reliable coverage for health, life, travel, and business needs.
+              </p>
+            </div>
 
-                <h3 className="text-white text-2xl font-semibold mb-6">
-                  Quick Verification
-                </h3>
+          </div>
 
-                <p className="text-gray-300 text-sm leading-7 mb-8">
-                  Instantly verify your insurance policy status and access your official documents securely.
-                </p>
+          <div className="flex items-start gap-4">
 
-                {/* INPUT */}
-                <input
-                  type="text"
-                  placeholder="Enter Reference ID"
-                  className="w-full bg-[#0f172a]/70 border border-white/10 text-white p-4 rounded-xl outline-none focus:border-[#38bdf8]"
-                />
+            <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center text-[#2563eb] text-2xl">
+              <FaHandHoldingUsd />
+            </div>
 
-                {/* BUTTON */}
-                <button className="w-full mt-5 bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] text-white py-4 rounded-xl font-semibold hover:opacity-90 transition">
-                  Verify Now
-                </button>
+            <div>
+              <h4 className="font-bold text-xl text-[#0f172a]">
+                Financial Security
+              </h4>
 
-                {/* FEATURES */}
-                <div className="space-y-4 mt-8">
-
-                  <div className="flex items-center gap-3 text-sm text-gray-300">
-                    <div className="w-2 h-2 rounded-full bg-[#38bdf8]"></div>
-                    Secure document verification
-                  </div>
-
-                  <div className="flex items-center gap-3 text-sm text-gray-300">
-                    <div className="w-2 h-2 rounded-full bg-[#38bdf8]"></div>
-                    Real-time policy tracking
-                  </div>
-
-                  <div className="flex items-center gap-3 text-sm text-gray-300">
-                    <div className="w-2 h-2 rounded-full bg-[#38bdf8]"></div>
-                    24/7 customer assistance
-                  </div>
-
-                </div>
-
-              </div>
-
+              <p className="text-gray-600 mt-2">
+                Protect your future with comprehensive insurance plans.
+              </p>
             </div>
 
           </div>
 
         </div>
 
-      </section>
+        {/* DESCRIPTION */}
+        <p className="mt-8 text-gray-600 leading-8">
+          We are committed to delivering transparent policies,
+          fast claim support, and exceptional customer service
+          backed by years of industry experience.
+        </p>
+
+        {/* BUTTON */}
+        <button className="mt-10 bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] text-white px-10 py-4 rounded-xl font-semibold hover:opacity-90 transition">
+          Learn More
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
 {/* SERVICES SECTION */}
 <section className="relative bg-[#f8fafc] py-24 overflow-hidden">
@@ -204,15 +274,14 @@ const Home = () => {
 
         {/* DESCRIPTION */}
         <p className="text-gray-600 text-lg leading-9 mt-8 max-w-xl">
-          At WorldCare Insurance, we provide reliable coverage plans for individuals, families, and businesses with fast verification, trusted support, and secure policy management.
-        </p>
+At Veltrix Global Insurance, we provide trusted insurance solutions for individuals, families, and businesses with secure policy verification, reliable support, and comprehensive protection plans.        </p>
 
       </div>
 
       {/* RIGHT IMAGE */}
       <div>
         <img
-          src="/insurance-team.jpg"
+          src="./home-imgs/img-1.png"
           alt="Insurance Consultation"
           className="w-full rounded-md object-cover shadow-xl"
         />
@@ -295,7 +364,7 @@ const Home = () => {
         <div className="relative rounded-[40px] overflow-hidden shadow-2xl border-4 border-[#0ea5e9]">
 
           <img
-            src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=1400&auto=format&fit=crop"
+            src="home-imgs\img-2.png"
             alt="Family Insurance"
             className="w-full h-[620px] object-cover"
           />
@@ -306,7 +375,7 @@ const Home = () => {
         <div className="absolute -bottom-10 right-0 w-56 rounded-[30px] overflow-hidden border-4 border-[#0ea5e9] shadow-2xl bg-white">
 
           <img
-            src="https://images.unsplash.com/photo-1516589091380-5d8e87df6999?q=80&w=1200&auto=format&fit=crop"
+            src="home-imgs\img-3.png"
             alt="Happy Family"
             className="w-full h-56 object-cover"
           />
@@ -339,8 +408,7 @@ const Home = () => {
 
         {/* DESCRIPTION */}
         <p className="text-gray-600 text-lg leading-9 mt-8">
-          WorldCare Insurance helps individuals and families secure their future with trusted coverage plans, fast policy verification, and reliable customer support tailored for modern needs.
-        </p>
+Veltrix Global Insurance helps individuals, families, and businesses protect what matters most through reliable coverage, transparent policies, and exceptional customer support.        </p>
 
         {/* STATS */}
         <div className="flex flex-col sm:flex-row gap-10 mt-12">
@@ -374,9 +442,12 @@ const Home = () => {
         </div>
 
         {/* BUTTON */}
-        <button className="mt-12 bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 text-white px-10 py-4 rounded-xl text-lg font-semibold transition shadow-lg">
-          Get Started Now
-        </button>
+      <Link
+  to="/contact"
+  className="mt-10 inline-block bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] text-white px-10 py-4 rounded-xl font-semibold"
+>
+  Get A Free Quote
+</Link>
 
       </div>
 
@@ -430,8 +501,7 @@ const Home = () => {
 
         {/* DESCRIPTION */}
         <p className="text-gray-600 text-lg leading-9 mt-8 max-w-xl">
-          WorldCare Insurance provides trusted protection plans designed to secure your family, health, travel, and future with complete confidence and professional support.
-        </p>
+Veltrix Global Insurance provides comprehensive insurance solutions designed to protect your health, family, travel, business, and financial future with confidence.        </p>
 
         {/* BUTTON */}
         <button className="mt-10 bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] hover:opacity-90 text-white px-10 py-4 rounded-xl text-lg font-semibold transition shadow-lg">

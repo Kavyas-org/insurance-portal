@@ -34,14 +34,15 @@ ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
         {/* TOP */}
         <div className="p-6">
 
-          {/* LOGO */}
-          <div className="flex items-center gap-2 mb-10">
-            <img
-              src="/Logo.png"
-              alt="WorldCare"
-              className="h-8 w-auto object-contain"
-            />
-          </div>
+      <div className="mb-10">
+  <div className="bg-white/95 rounded-2xl p-4 border border-slate-200 shadow-md">
+    <img
+      src="/Logo.png"
+      alt="Veltrix Global Insurance"
+      className="h-10 w-auto object-contain"
+    />
+  </div>
+</div>
 
           {/* NAV */}
           <nav className="space-y-2">
