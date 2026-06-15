@@ -12,7 +12,7 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:5174",
-    "https://insurance-portal-three.vercel.app/",
+    "https://insurance-portal-three.vercel.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
