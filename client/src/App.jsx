@@ -6,6 +6,7 @@ import Home from "./pages/public/Home";
 import Verify from "./pages/public/Verify";
 import About from "./pages/public/About";
 import Services from "./pages/public/services";
+import ServiceDetails from "./pages/public/ServiceDetails";
 // import Sustainability from "./pages/public/Sustainability";
 import Contact from "./pages/public/Contact";
 import ScrollToTop from "./components/common/ScrollToTop";
@@ -35,6 +36,7 @@ function App() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/about" element={<About />} />
   <Route path="/services" element={<Services />} />
+<Route path="/services/:slug" element={<ServiceDetails />} />
     {/* <Route path="/sustainability" element={<Sustainability />} /> */}
     <Route path="/Contact" element={<Contact />} />
 

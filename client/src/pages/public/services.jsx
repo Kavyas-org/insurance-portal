@@ -11,38 +11,44 @@ import {
 } from "react-icons/fi";
 
 const Services = () => {
-  const services = [
-    {
-      icon: <FiHome />,
-      title: "Home Insurance",
-      desc: "Protect your home and property with secure and flexible insurance coverage.",
-    },
-    {
-      icon: <FiHeart />,
-      title: "Life Insurance",
-      desc: "Ensure long-term financial protection and peace of mind for your family.",
-    },
-    {
-      icon: <FiActivity />,
-      title: "Health Insurance",
-      desc: "Comprehensive health plans with emergency and medical coverage support.",
-    },
-    {
-      icon: <FiGlobe />,
-      title: "Travel Insurance",
-      desc: "Travel worldwide confidently with complete travel and emergency protection.",
-    },
-    {
-      icon: <FiTruck />,
-      title: "Vehicle Insurance",
-      desc: "Reliable insurance solutions for cars, commercial vehicles, and transport.",
-    },
-    {
-      icon: <FiShield />,
-      title: "Business Insurance",
-      desc: "Secure your business assets, operations, and financial growth with confidence.",
-    },
-  ];
+ const services = [
+  {
+    icon: <FiHome />,
+    title: "Home Insurance",
+    slug: "home-insurance",
+    desc: "Protect your home and property..."
+  },
+  {
+    icon: <FiHeart />,
+    title: "Life Insurance",
+    slug: "life-insurance",
+    desc: "Ensure long-term financial protection..."
+  },
+  {
+    icon: <FiActivity />,
+    title: "Health Insurance",
+    slug: "health-insurance",
+    desc: "Comprehensive health plans..."
+  },
+  {
+    icon: <FiGlobe />,
+    title: "Travel Insurance",
+    slug: "travel-insurance",
+    desc: "Travel worldwide confidently..."
+  },
+  {
+    icon: <FiTruck />,
+    title: "Vehicle Insurance",
+    slug: "vehicle-insurance",
+    desc: "Reliable insurance solutions..."
+  },
+  {
+    icon: <FiShield />,
+    title: "Business Insurance",
+    slug: "business-insurance",
+    desc: "Secure your business assets..."
+  }
+];
 
   return (
     <div className="bg-white overflow-hidden">
@@ -110,10 +116,11 @@ const Services = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
             {services.map((service, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-[32px] p-8 border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition duration-300"
-              >
+              <Link
+  key={index}
+  to={`/services/${service.slug}`}
+  className="group bg-white rounded-[32px] p-8 border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition duration-300 block"
+>
 
                 {/* ICON */}
                 <div className="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-[#2563eb] text-3xl mb-8 group-hover:bg-gradient-to-r group-hover:from-[#2563eb] group-hover:to-[#0ea5e9] group-hover:text-white transition">
@@ -132,7 +139,7 @@ const Services = () => {
                   {service.desc}
                 </p>
 
-              </div>
+              </Link>
             ))}
 
           </div>
